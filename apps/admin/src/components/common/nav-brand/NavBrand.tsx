@@ -1,0 +1,46 @@
+'use client';
+import React from 'react';
+import type { ReactElement } from 'react';
+import { useBreakpoint } from '@riffy/hooks';
+import { cn } from '@riffy/utils';
+import { ASSETS } from '@/constants';
+import { useTheme } from '@riffy/hooks';
+import { Logo } from '@riffy/components';
+
+interface NavBrandProps {
+  collapseSidebar: boolean;
+}
+
+const NavBrand = ({ collapseSidebar }: NavBrandProps): ReactElement => {
+  const { isDesktop } = useBreakpoint();
+  const { theme } = useTheme();
+
+  const shouldCollapse = isDesktop && collapseSidebar;
+  const collapseClass = shouldCollapse
+    ? 'max-w-[80px]'
+    : 'max-w-[120px] lg:max-w-[230px]';
+
+  const baseLogo =
+    theme === 'dark' ? ASSETS.IMAGES.LOGO : ASSETS.IMAGES.LOGO_BLACK;
+  const logoSrc = shouldCollapse ? ASSETS.IMAGES.LOGO_SMALL : baseLogo;
+  const logoSmallSrc =
+    theme === 'dark'
+      ? ASSETS.IMAGES.LOGO_SMALL
+      : ASSETS.IMAGES.LOGO_SMALL_BLACK;
+
+  return (
+    <div
+      className={cn(
+        'w-full transition-all justify-center items-center h-[52px] hidden lg:flex bg-navbar-bg',
+        collapseClass,
+      )}
+    >
+      <Logo
+        className={`${shouldCollapse ? 'w-[20px]' : 'w-[64px] lg:w-[64px]'} transition-all`}
+        src={shouldCollapse ? logoSmallSrc : logoSrc}
+      />
+    </div>
+  );
+};
+
+export default NavBrand;

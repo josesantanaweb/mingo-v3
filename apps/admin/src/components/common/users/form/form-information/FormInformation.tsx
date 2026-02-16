@@ -1,0 +1,265 @@
+'use client';
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useFormContext } from 'react-hook-form';
+import {
+  Icon,
+  Input,
+  Select,
+  ColorInput,
+  Switch,
+  Editor,
+} from '@riffy/components';
+import type { FormData } from '@/validations/ownerSchema';
+import { UserStatus } from '@riffy/types';
+import { usePlans } from '@riffy/hooks';
+
+interface FormInformationProps {
+  isProfileMode?: boolean;
+}
+
+const FormInformation = ({ isProfileMode = false }: FormInformationProps) => {
+  const { data: plans } = usePlans();
+  const [isCollapse, setIsCollapse] = useState(true);
+
+  const {
+    register,
+    formState: { errors },
+    watch,
+    setValue,
+  } = useFormContext<FormData>();
+
+  useEffect(() => {
+    register('brandColor');
+  }, [register]);
+
+
+  const statusOptions = [
+    { value: 'ACTIVE', label: 'Activo' },
+    { value: 'INACTIVE', label: 'Inactivo' },
+  ];
+
+  const plansOptions = plans?.map(plan => ({
+    value: plan.id,
+    label: plan.name,
+  }));
+
+  const handleCollapse = () => setIsCollapse(prev => !prev);
+
+  const formValues = watch();
+
+  const termsValue = formValues.terms || '';
+
+  const handleTermsChange = (value: string) => {
+    setValue('terms', value, { shouldValidate: true });
+  };
+
+  return (
+    <div className="bg-box-primary rounded-xl relative">
+      <div
+        className={`flex justify-between items-center px-6 py-4 ${isCollapse ? 'border-b border-line-100' : ''}`}
+      >
+        <div className="flex items-center gap-2">
+          <Icon name="info-circle" className="text-2xl text-body-100" />
+          <h5 className="text-base text-title">
+            {isProfileMode ? 'Información personal' : 'Información del dueño'}
+          </h5>
+        </div>
+        <button
+          className={`cursor-pointer text-body-100 transition-transform ${isCollapse ? 'rotate-180' : ''}`}
+          onClick={handleCollapse}
+          type="button"
+        >
+          <Icon name="chevron-down" className="text-2xl" />
+        </button>
+      </div>
+      <AnimatePresence initial={true}>
+        {isCollapse && (
+          <motion.div
+            key="info-content"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+          >
+            <div className="flex flex-col px-6 pt-4 pb-8 w-full gap-6">
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
+                  <Input
+                    label="Nombre"
+                    isRequired
+                    placeholder="Ej: Demo Owner"
+                    inputSize="md"
+                    value={formValues.name || ''}
+                    {...register('name')}
+                    error={errors.name?.message}
+                  />
+                </div>
+                <div className="w-full lg:w-1/2">
+                  <Input
+                    label="Email"
+                    isRequired
+                    placeholder="Ej: demo@correo.com"
+                    inputSize="md"
+                    type="email"
+                    value={formValues.email || ''}
+                    {...register('email')}
+                    error={errors.email?.message}
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
+                  <Input
+                    label="Contraseña"
+                    placeholder="Dejar vacío para mantener actual"
+                    inputSize="md"
+                    type="password"
+                    value={formValues.password || ''}
+                    {...register('password')}
+                    error={errors.password?.message}
+                  />
+                </div>
+                <div className="w-full lg:w-1/2">
+                  <Input
+                    label="Dominio"
+                    placeholder="Ej: www.example.com"
+                    inputSize="md"
+                    value={formValues.domain || ''}
+                    disabled={isProfileMode}
+                    {...register('domain')}
+                    error={errors.domain?.message}
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
+                  <Input
+                    label="WhatsApp"
+                    placeholder="Ej: 04141234567"
+                    inputSize="md"
+                    value={formValues.whatsapp || ''}
+                    {...register('whatsapp')}
+                    error={errors.whatsapp?.message}
+                  />
+                </div>
+                <div className="w-full lg:w-1/2">
+                  <Input
+                    label="Instagram"
+                    placeholder="Ej: @miCuenta"
+                    inputSize="md"
+                    value={formValues.instagram || ''}
+                    {...register('instagram')}
+                    error={errors.instagram?.message}
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
+                  <Input
+                    label="TikTok"
+                    placeholder="Ej: @miCuenta"
+                    inputSize="md"
+                    value={formValues.tiktok || ''}
+                    {...register('tiktok')}
+                    error={errors.tiktok?.message}
+                  />
+                </div>
+                {!isProfileMode && (
+                  <div className="w-full lg:w-1/2">
+                    <Select
+                      label="Estado"
+                      placeholder="Selecciona el estado"
+                      size="md"
+                      options={statusOptions}
+                      value={formValues.status || ''}
+                      onChange={value =>
+                        setValue('status', value as UserStatus, {
+                          shouldValidate: false,
+                        })
+                      }
+                    />
+                  </div>
+                )}
+                {isProfileMode && (
+                  <div className="w-full lg:w-1/2">
+                    <ColorInput
+                      label="Color de Marca"
+                      placeholder="#000000"
+                      value={formValues.brandColor || ''}
+                      onChange={value =>
+                        setValue('brandColor', value, { shouldValidate: true })
+                      }
+                      error={errors.brandColor?.message}
+                      inputSize="md"
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full">
+                  <Editor
+                    label="Términos y Condiciones"
+                    value={termsValue}
+                    setValue={handleTermsChange}
+                  />
+                </div>
+              </div>
+
+              {!isProfileMode && (
+                <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                  <div className="w-full lg:w-1/2">
+                    <Select
+                      label="Plan"
+                      placeholder="Selecciona el plan"
+                      size="md"
+                      options={plansOptions}
+                      value={formValues.planId || ''}
+                      onChange={value =>
+                        setValue('planId', value as string, {
+                          shouldValidate: false,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="w-full lg:w-1/2">
+                    <ColorInput
+                      label="Color de Marca"
+                      placeholder="#000000"
+                      value={formValues.brandColor || ''}
+                      onChange={value =>
+                        setValue('brandColor', value, { shouldValidate: true })
+                      }
+                      error={errors.brandColor?.message}
+                      inputSize="md"
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
+                  <Switch
+                    checked={formValues.isRoundedLogo ?? true}
+                    onChange={() =>
+                      setValue('isRoundedLogo', !formValues.isRoundedLogo, {
+                        shouldValidate: false,
+                      })
+                    }
+                    label="¿El logo de la marca es redondo?"
+                  />
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default FormInformation;

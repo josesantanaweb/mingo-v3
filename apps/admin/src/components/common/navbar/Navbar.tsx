@@ -1,0 +1,36 @@
+'use client';
+import React from 'react';
+import type { ReactElement } from 'react';
+import { Icon } from '@riffy/components';
+import NavUser from '../nav-user';
+import Notifications from '../notifications';
+import { useStore } from '@/store';
+import { useProfile } from '@riffy/hooks';
+
+const Navbar = (): ReactElement => {
+  const { data: profile } = useProfile();
+  const { setCollapseSidebar, collapseSidebar, toggleMobileSidebar } = useStore();
+
+  return (
+    <div className="w-full h-[52px] shrink-0 bg-navbar-bg flex items-center sticky top-0 left-0 z-50">
+      <div className="flex items-center w-full gap-3 px-6 justify-between">
+        <Icon
+          name="menu"
+          className="text-body-100 cursor-pointer hover:text-white transition-colors lg:hidden"
+          onClick={toggleMobileSidebar}
+        />
+        <Icon
+          name="menu"
+          className="text-body-100 cursor-pointer hover:text-white transition-colors hidden lg:block"
+          onClick={() => setCollapseSidebar(!collapseSidebar)}
+        />
+        <div className="flex gap-2 items-center h-full">
+          <Notifications />
+          <NavUser profile={profile} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Navbar;

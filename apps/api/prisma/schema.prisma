@@ -1,0 +1,195 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id             String          @id @default(cuid())
+  email          String          @unique
+  password       String
+  name           String
+  phone          String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  role           Role            @default(OWNER)
+  brandColor     String?         @default("#00D4FF")
+  logo           String?
+  isRoundedLogo  Boolean?        @default(true)
+  status         UserStatus      @default(ACTIVE)
+  terms          String?
+  instagram      String?
+  tiktok         String?
+  whatsapp       String?
+  domain         String          @unique
+  paymentMethods PaymentMethod[]
+  raffles        Raffle[]
+  notification   Notification[]
+  planId         String?
+  plan           Plan?           @relation(fields: [planId], references: [id])
+  planUsage      PlanUsage?
+}
+
+model Plan {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  description String[]
+  price       Float
+  maxRaffles  Int?        @default(0)
+  maxTickets  Int?        @default(0)
+  type        PlanType
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  owners      User[]
+  planUsages  PlanUsage[]
+}
+
+model Raffle {
+  id              String       @id @default(cuid())
+  title           String
+  description     String?
+  banner          String
+  totalTickets    Int          @default(100)
+  price           Float
+  drawDate        DateTime     @default(dbgenerated("(now() + '15 days'::interval)"))
+  showDate        Boolean?     @default(true)
+  showProgress    Boolean?     @default(true)
+  minTickets      Int?         @default(2)
+  drawMode        DrawMode     @default(RANDOM)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  ownerId         String
+  award           Float?
+  status          RaffleStatus @default(ACTIVE)
+  owner           User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  tickets         Ticket[]
+  payments        Payment[]
+}
+
+model Ticket {
+  id        String       @id @default(cuid())
+  number    String
+  status    TicketStatus @default(AVAILABLE)
+  raffleId  String
+  paymentId String?
+  payment   Payment?     @relation(fields: [paymentId], references: [id], onDelete: SetNull)
+  raffle    Raffle       @relation(fields: [raffleId], references: [id], onDelete: Cascade)
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  buyerName     String
+  phone         String
+  state         String?
+  proofUrl      String
+  paymentDate   DateTime?     @default(now())
+  email         String?
+  status        PaymentStatus @default(PENDING)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  paymentMethod String?
+  nationalId    String?
+  amount        Float?
+  raffleId      String?
+  raffle        Raffle?       @relation(fields: [raffleId], references: [id], onDelete: Cascade)
+  tickets       Ticket[]
+}
+
+model PaymentMethod {
+  id          String            @id @default(cuid())
+  name        String
+  type        PaymentMethodType
+  bankName    String?
+  phoneNumber String?
+  nationalId  String?
+  binanceId   String?
+  paypalEmail String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  ownerId     String
+  owner       User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id          String             @id @default(cuid())
+  description String
+  status      NotificationStatus @default(UNREAD)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  ownerId     String
+  owner       User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+}
+
+model PlanUsage {
+  id             String          @id @default(cuid())
+  ownerId        String          @unique
+  planId         String
+  currentRaffles Int             @default(0)
+  currentTickets Int             @default(0)
+  status         PlanUsageStatus @default(ACTIVE)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  owner          User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  plan           Plan            @relation(fields: [planId], references: [id], onDelete: Cascade)
+}
+
+enum PlanType {
+  BASIC
+  PREMIUM
+  ONE_TIME
+}
+
+enum NotificationStatus {
+  READ
+  UNREAD
+}
+
+enum PaymentStatus {
+  PENDING
+  VERIFIED
+  DENIED
+}
+
+enum RaffleStatus {
+  ACTIVE
+  PENDING
+  COMPLETED
+}
+
+enum TicketStatus {
+  AVAILABLE
+  SOLD
+  PREMIUM
+  WINNER
+  LOSER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum Role {
+  ADMIN
+  OWNER
+}
+
+enum PaymentMethodType {
+  PAGO_MOVIL
+  BINANCE_PAY
+  PAYPAL
+}
+
+enum PlanUsageStatus {
+  ACTIVE
+  EXHAUSTED
+  UNLIMITED
+}
+
+enum DrawMode {
+  MANUAL
+  RANDOM
+  BOTH
+}
