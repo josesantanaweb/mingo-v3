@@ -1,5 +1,5 @@
 {
-  "extends": "@riffy/typescript-config/nestjs.json",
+  "extends": "@mingo/typescript-config/nestjs.json",
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist",
@@ -8,7 +8,7 @@
   }
 }
 // {
-//   "extends": "@riffy/typescript-config/nestjs.json",
+//   "extends": "@mingo/typescript-config/nestjs.json",
 //   "compilerOptions": {
 //     "module": "commonjs",
 //     "declaration": true,

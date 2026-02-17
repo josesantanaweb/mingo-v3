@@ -1,5 +1,5 @@
 {
-  "extends": "@riffy/typescript-config/nextjs.json",
+  "extends": "@mingo/typescript-config/nextjs.json",
   "compilerOptions": {
     "plugins": [
       {
