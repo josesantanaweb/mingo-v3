@@ -21,8 +21,6 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
-    "@mingo/eslint-config": "workspace:*",
-    "@mingo/jest-config": "workspace:*",
     "@mingo/typescript-config": "workspace:*",
     "@mingo/hooks": "workspace:*",
     "@mingo/utils": "workspace:*",
