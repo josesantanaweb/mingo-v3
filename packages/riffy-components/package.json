@@ -1,5 +1,5 @@
 {
-  "name": "@riffy/components",
+  "name": "@mingo/components",
   "version": "0.0.0",
   "private": true,
   "exports": {
@@ -21,11 +21,11 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
-    "@riffy/eslint-config": "workspace:*",
-    "@riffy/jest-config": "workspace:*",
-    "@riffy/typescript-config": "workspace:*",
-    "@riffy/hooks": "workspace:*",
-    "@riffy/utils": "workspace:*",
+    "@mingo/eslint-config": "workspace:*",
+    "@mingo/jest-config": "workspace:*",
+    "@mingo/typescript-config": "workspace:*",
+    "@mingo/hooks": "workspace:*",
+    "@mingo/utils": "workspace:*",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",
     "@turbo/gen": "^1.12.4",

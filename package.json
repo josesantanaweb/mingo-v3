@@ -1,5 +1,5 @@
 {
-  "name": "riffy",
+  "name": "mingo",
   "version": "0.1.0",
   "private": true,
   "description": "",
@@ -20,8 +20,8 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
-    "@riffy/eslint-config": "workspace:*",
-    "@riffy/typescript-config": "workspace:*",
+    "@mingo/eslint-config": "workspace:*",
+    "@mingo/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",
     "husky": "^9.1.7",

@@ -1,5 +1,5 @@
 {
-  "name": "@riffy/utils",
+  "name": "@mingo/hooks",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -13,15 +13,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@formkit/tempo": "^0.1.2",
-    "@types/node": "^24.10.0",
+    "@apollo/client": "^3.11.0-rc.2",
     "react": "^19.1.0",
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^2.5.5"
+    "react-device-detect": "^2.2.3"
   },
   "devDependencies": {
-    "@riffy/graphql": "workspace:*",
-    "@riffy/types": "workspace:*",
+    "@mingo/graphql": "workspace:*",
+    "@mingo/types": "workspace:*",
     "@types/react": "^19.1.12"
   }
 }

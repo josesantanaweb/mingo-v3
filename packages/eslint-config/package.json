@@ -1,5 +1,5 @@
 {
-  "name": "@riffy/eslint-config",
+  "name": "@mingo/eslint-config",
   "version": "0.0.0",
   "private": true,
   "files": [
