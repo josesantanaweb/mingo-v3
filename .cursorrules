@@ -1,0 +1,44 @@
+# Reglas del Proyecto: Betting Mingo App (Turborepo)
+
+## 1. Stack Tecnológico
+- Monorepo: Turborepo (pnpm)
+- Backend: NestJS + GraphQL (Code First)
+- Frontend: Next.js + Apollo Client + Tailwind CSS v4
+- DB: Prisma + PostgreSQL
+
+## 2. Gestión de Tipos (Crucial)
+- NO inventar interfaces para entidades de BD.
+- Usar siempre `@repo/types`.
+- Flujo: Si cambia el esquema de Prisma, exportar el tipo de Prisma hacia `@repo/types` usando:
+  `export type User = import('@prisma/client').User;`
+- Los tipos de GraphQL deben coincidir con estos tipos base para mantener consistencia.
+
+## 3. Estilos (Tailwind v4)
+- Usa la nueva sintaxis de Tailwind v4 (CSS-first configuration).
+- Prioriza variables CSS nativas para temas de la app de apuestas (ej. --color-primary-win).
+- No uses `@apply` a menos que sea estrictamente necesario para componentes complejos.
+
+## 4. Lógica de Apuestas (Reglas de Oro)
+- Todas las transacciones de dinero/puntos DEBEN ocurrir dentro de una `$transaction` de Prisma.
+- Los resolvers de NestJS deben usar `UseGuards(JwtAuthGuard)` para cualquier operación privada.
+- El Frontend debe manejar estados de "Loading" y "Error" de Apollo de forma global.
+
+## 5. Organización de Archivos
+- Queries de GraphQL: Siempre en `packages/mingo-grapqh/src/queries/[modulo].ts`.
+- Hooks: Los hook que se consideren que se usaran para otros flows agregarlos en el `packages/mingo-hooks` para que sean reutilizables.
+
+## 6. Estrategia de Testing (Obligatorio)
+- **Backend (NestJS):** Usa **Jest** para Unit Tests y Integration Tests.
+  - Archivos: `*.spec.ts`.
+  - Comando: `pnpm --filter api test`.
+- **Frontend (Next.js/UI):** Usa **Cypress** para End-to-End (E2E) y Component Testing.
+  - Los tests de flujo de apuesta (depósito -> apuesta -> resultado) DEBEN ser en Cypress.
+  - Comando: `pnpm --filter web cy:open` o `cy:run`.
+- **Mingo components UI (Next.js/UI):** Usa **Jest** para Unit Tests y Component Testing. Es decir cada component ui que se agrege debe tener su test
+
+## 7. Estilo de Código y Linting (Estricto)
+- **Cero Comentarios Innecesarios:** NO añadas comentarios explicativos dentro del código (ej. "// Aquí sumamos el saldo"). El código debe ser autodocumentado. Solo usa JSDoc en funciones complejas de lógica de apuestas.
+- **Respeto al Linter:** Antes de dar por finalizada una tarea, DEBES ejecutar el linter del proyecto.
+  - Comando: `pnpm lint` o `npx eslint . --fix`.
+- **Prohibido Ignorar Errores:** No uses `// @ts-ignore` ni `/* eslint-disable */`. Si hay un error de tipos o de lint, corrígelo siguiendo las mejores prácticas del stack.
+- **Formateo:** Usa la configuración de Prettier del proyecto. No cambies comillas simples por dobles (o viceversa) si no es el estándar actual.

@@ -1,4 +1,4 @@
-import { IconName } from '../../../../../../packages/riffy-components/src/components/icon';
+import { IconName } from '../../../../../../packages/mingo-components/src/components/icon';
 
 export interface Item {
   label: string;

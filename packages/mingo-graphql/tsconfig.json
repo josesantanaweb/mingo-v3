@@ -1,5 +1,5 @@
 {
-  "extends": "@riffy/typescript-config/react-library.json",
+  "extends": "@mingo/typescript-config/react-library.json",
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Node",

@@ -1,5 +1,5 @@
 import type { StateCreator } from 'zustand';
-import { User } from '@riffy/types';
+import { User } from '@mingo/types';
 
 export type UserState = {
   user: User | null;

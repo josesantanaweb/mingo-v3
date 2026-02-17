@@ -1,19 +1,17 @@
 'use client';
-import Navbar from './navbar';
-import Footer from './footer';
-import { useBrandColor } from '@/hooks';
+// import Navbar from './navbar';
+// import Footer from './footer';
 import { useIOSScrollFix } from '@/hooks';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  useBrandColor();
   useIOSScrollFix();
 
   return (
     <main className="relative w-full flex items-center justify-center overflow-auto bg-web-bg h-full">
       <div className="w-full md:max-w-md flex flex-col h-full bg-box-primary">
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="flex-1 safe-scroll">{children}</div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </main>
   );
