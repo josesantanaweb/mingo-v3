@@ -57,12 +57,17 @@
   - **Validación:** Usa siempre `ValidationPipe` global. Todos los DTOs deben tener decoradores de `class-validator`.
   - **Inyección de Dependencias:** Prefiere siempre el uso de interfaces o clases abstractas para los servicios si vas a realizar testing pesado.
   - **Performance:** En los Resolvers de GraphQL, usa `@Args()` con tipos de TypeScript explícitos que coincidan con los `InputType`.
-+
-+ ## 10. Codegen y API GraphQL
-+ - Si cambia `apps/api/src/schema.gql` o se agregan queries nuevas, correr `graphql-codegen` en `apps/*`.
-+ - No editar tipos generados a mano; siempre regenerar.
-+
-+ ## 11. Turborepo y dependencias internas
-+ - Cualquier nueva tarea debe declararse en `turbo.json` para el pipeline.
-+ - Dependencias internas entre paquetes deben usar `workspace:*`.
-+ - Evitar overrides que desalineen versiones de `next`, `react` y `react-dom` con las apps.
+
+  ## 10. Codegen y API GraphQL
+  - Si cambia `apps/api/src/schema.gql` o se agregan queries nuevas, correr `graphql-codegen` en `apps/*`.
+  - No editar tipos generados a mano; siempre regenerar.
+
+  ## 11. Turborepo y dependencias internas
+  - Cualquier nueva tarea debe declararse en `turbo.json` para el pipeline.
+  - Dependencias internas entre paquetes deben usar `workspace:*`.
+  - Evitar overrides que desalineen versiones de `next`, `react` y `react-dom` con las apps.
+
+  ## 12. Reglas de Git
+  - **Mensajes de Commit:** Usa siempre el estándar de Conventional Commits (feat:, fix:, chore:, refactor:, docs:).
+  - **Idioma:** Los mensajes de commit deben ser en [INGLÉS/ESPAÑOL].
+  - **Scope:** Incluye el nombre del package o app afectada entre paréntesis, ej: `feat(web): add login page`.
