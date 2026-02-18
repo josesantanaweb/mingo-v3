@@ -1,4 +1,4 @@
-import { Currency } from '@riffy/types';
+import { Currency } from '@mingo/types';
 
 export const formatCurrency = (
   value: number,
