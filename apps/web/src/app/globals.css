@@ -1,5 +1,5 @@
 @import "tailwindcss";
 
-@source "../../../../packages/riffy-components/src";
+@source "../../../../packages/mingo-components/src";
 
-@import "@riffy/components/styles.css";
+@import "@mingo/components/styles.css";
