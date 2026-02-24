@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import Image from 'next/image';
-import { cn } from '@riffy/utils';
+import { cn } from '@mingo/utils';
 
 interface AvatarProps {
   src?: string;

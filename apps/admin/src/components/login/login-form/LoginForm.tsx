@@ -4,10 +4,10 @@ import { ASSETS } from '@/constants';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type FormData } from '@/validations/auth';
-import { Input, Button, Logo } from '@riffy/components';
+import { Input, Button, Logo } from '@mingo/components';
 import { useToast } from '@/hooks/useToast';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useAuth, useTheme } from '@riffy/hooks';
+import { useAuth, useTheme } from '@mingo/hooks';
 
 const LoginForm = () => {
   const methods = useForm<FormData>({

@@ -1,8 +1,8 @@
 'use client';
 import { useMemo, useEffect } from 'react';
 import Image from 'next/image';
-import { Icon } from '@riffy/components';
-import { useImagePreview } from '@riffy/hooks';
+import { Icon } from '@mingo/components';
+import { useImagePreview } from '@mingo/hooks';
 
 export interface ImageUploadProps {
   width?: number;

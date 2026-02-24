@@ -1,17 +1,54 @@
 'use client';
-// import Navbar from './navbar';
-// import Footer from './footer';
-import { useIOSScrollFix } from '@/hooks';
+import Header from './header';
+import Footer from './footer';
+import { MENU } from '@/constants/routes';
+import { useRouter } from 'next/navigation';
+// import { useProfile } from '@/hooks/users/useProfile';
+// import { useAuth } from '@/hooks/auth/useAuth';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  useIOSScrollFix();
+  const router = useRouter();
+  // const { logout, isAuthenticated, getCurrentUser, isLoading: isAuthLoading } = useAuth();
+  // const { data: profileData, loading: profileLoading } = useProfile();
+
+  // const user = getCurrentUser();
+  // const isLoadingProfile = isAuthenticated && profileLoading;
+  // const isLoading = isAuthLoading || isLoadingProfile;
+
+  const handleLogin = () => router.push('/login');
+
+  const handleRegister = () => router.push('/register');
+
+  const handleLogout =  () => {
+    // try {
+    //   if (user?.id) {
+    //     await logout(user.id);
+    //   }
+    //   router.push('/login');
+    // } catch {
+    //   router.push('/login');
+    // }
+  };
+
+  const profile = {
+    // balance: profileData?.balance || 0,
+    // image: profileData?.image || user?.image || '',
+    // hasSession: isAuthenticated,
+    // isLoading,
+  };
+
+  const actions = {
+    onLogin: handleLogin,
+    onRegister: handleRegister,
+    onLogout: handleLogout,
+  };
 
   return (
-    <main className="relative w-full flex items-center justify-center overflow-auto bg-web-bg h-full">
-      <div className="w-full md:max-w-md flex flex-col h-full bg-box-primary">
-        {/* <Navbar /> */}
-        <div className="flex-1 safe-scroll">{children}</div>
-        {/* <Footer /> */}
+    <main className="relative w-full flex items-center justify-center bg-black">
+      <div className="bg-base-900 w-full md:max-w-md flex flex-col min-h-screen">
+        <Header profile={profile} actions={actions} />
+        <main className="flex-1">{children}</main>
+        <Footer menu={MENU} />
       </div>
     </main>
   );

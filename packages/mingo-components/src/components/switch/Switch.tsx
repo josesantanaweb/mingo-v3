@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { cn } from '@riffy/utils';
+import { cn } from '@mingo/utils';
 
 interface SwitchProps {
   checked: boolean;

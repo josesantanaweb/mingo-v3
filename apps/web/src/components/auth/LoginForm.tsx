@@ -7,19 +7,24 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { loginSchema, type LoginFormData } from '@/validations/authSchema';
 import { ROUTES } from '@/constants/routes';
+import { Button, Input } from '@mingo/components';
 
 export default function LoginForm() {
-  const router = useRouter();
-  const [authError, setAuthError] = useState<string | null>(null);
-
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
+    watch,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '' },
   });
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
+
+  const email = watch('email');
+  const password = watch('password');
 
   const onSubmit = async (data: LoginFormData) => {
     setAuthError(null);
@@ -42,39 +47,29 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
       <div className="space-y-1.5">
-        <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          autoComplete="email"
-          placeholder="admin@mingo.com"
+        <Input
+          label="Correo electrónico"
+          placeholder="Ej: demo@correo.com"
+          inputSize="lg"
+          value={email}
           {...register('email')}
-          className="w-full rounded-lg border border-gray-600 bg-gray-700 px-4 py-2.5 text-sm text-white placeholder-gray-400 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/40 disabled:opacity-50"
-          disabled={isSubmitting}
+          error={errors.email?.message}
         />
-        {errors.email && (
-          <p className="text-xs text-red-400">{errors.email.message}</p>
-        )}
       </div>
 
       <div className="space-y-1.5">
-        <label htmlFor="password" className="block text-sm font-medium text-gray-300">
-          Contraseña
-        </label>
-        <input
-          id="password"
-          type="password"
-          autoComplete="current-password"
-          placeholder="••••••••"
-          {...register('password')}
-          className="w-full rounded-lg border border-gray-600 bg-gray-700 px-4 py-2.5 text-sm text-white placeholder-gray-400 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/40 disabled:opacity-50"
-          disabled={isSubmitting}
+        <Input
+           label="Contraseña"
+           type={showPassword ? 'text' : 'password'}
+           icon={showPassword ? 'show' : 'hide'}
+           iconPosition="right"
+           placeholder="Ingresa tu contraseña"
+           inputSize="lg"
+           onIconClick={() => setShowPassword(!showPassword)}
+           value={password}
+           {...register('password')}
+           error={errors.password?.message}
         />
-        {errors.password && (
-          <p className="text-xs text-red-400">{errors.password.message}</p>
-        )}
       </div>
 
       {authError && (
@@ -83,13 +78,12 @@ export default function LoginForm() {
         </div>
       )}
 
-      <button
+      <Button
         type="submit"
-        disabled={isSubmitting}
-        className="w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 disabled:cursor-not-allowed disabled:opacity-50"
+        disabled={!isValid}
       >
         {isSubmitting ? 'Ingresando...' : 'Iniciar sesión'}
-      </button>
+      </Button>
 
       <p className="text-center text-xs text-gray-500">
         Demo: <span className="text-gray-400">admin@mingo.com</span> /{' '}

@@ -1,8 +1,8 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Icon } from '@riffy/components';
-import { cn } from '@riffy/utils';
+import { Icon } from '@mingo/components';
+import { cn } from '@mingo/utils';
 
 interface Option {
   value: string;

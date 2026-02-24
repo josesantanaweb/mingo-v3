@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import type { ReactElement } from 'react';
 import Link from 'next/link';
-import { cn } from '@riffy/utils';
+import { cn } from '@mingo/utils';
 
 interface LogoProps {
   className: string;

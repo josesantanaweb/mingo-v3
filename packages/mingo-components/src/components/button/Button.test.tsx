@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import Button from './Button';
 
-jest.mock('@riffy/utils', () => ({
+jest.mock('@mingo/utils', () => ({
   cn: jest.fn((...inputs: unknown[]) => {
     return inputs.filter(Boolean).join(' ');
   }),

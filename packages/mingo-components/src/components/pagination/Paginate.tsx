@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Icon } from '@riffy/components';
+import { Button, Icon } from '@mingo/components';
 
 interface PaginateProps {
   pageIndex: number;

@@ -1,6 +1,6 @@
 'use client';
 import type { ReactElement } from 'react';
-import { cn } from '@riffy/utils';
+import { cn } from '@mingo/utils';
 
 export type IconName =
   | 'credit-card'

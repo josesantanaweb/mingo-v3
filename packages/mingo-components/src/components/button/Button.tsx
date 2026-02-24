@@ -2,7 +2,7 @@
 import type { ReactElement } from 'react';
 import React from 'react';
 
-import { cn } from '@riffy/utils';
+import { cn } from '@mingo/utils';
 
 export type ButtonVariant = 'primary' | 'danger' | 'default' | 'success';
 
